@@ -29,7 +29,6 @@ namespace CodespacesBlankProgram
             {
                 new MenuItem { Number = 1, Title = "Вход в GitHub" },
                 new MenuItem { Number = 2, Title = "Просмотреть и удалить репозиторий" },
-                new MenuItem { Number = 3, Title = "Закрыть приложение" }
             };
 
             do
@@ -88,9 +87,6 @@ namespace CodespacesBlankProgram
                     break;
                 case 2:
                     ShowAndDeleteRepository();
-                    break;
-                case 3:
-                    Environment.Exit(0);
                     break;
             }
         }
@@ -159,108 +155,70 @@ namespace CodespacesBlankProgram
             }
         }
 
-static void ShowAndDeleteRepository()
-{
-    if (string.IsNullOrEmpty(currentUsername))
-    {
-        Console.WriteLine("Ошибка: Вы не подключены к аккаунту GitHub!");
-        Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
-        Console.ReadKey();
-        return;
-    }
-
-    bool exit = false;
-    int selectedOption = 0;
-    List<Repository> repositories = null;
-
-    do
-    {
-        try
+        static void ShowAndDeleteRepository()
         {
-            if (repositories == null)
+            if (string.IsNullOrEmpty(currentUsername))
             {
-                repositories = client.Repository.GetAllForUser(currentUsername).Result;
+                Console.WriteLine("Ошибка: Вы не подключены к аккаунту GitHub!");
+                Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
+                Console.ReadKey();
+                return;
             }
 
-            Console.Clear();
-            Console.WriteLine($"Репозитории пользователя {currentUsername}:");
-            Console.WriteLine();
+            bool exit = false;
 
-            for (int i = 0; i < repositories.Count; i++)
+            do
             {
-                if (i == selectedOption)
+                try
                 {
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.BackgroundColor = ConsoleColor.DarkBlue;
-                    Console.Write("-> ");
+                    var repositories = client.Repository.GetAllForUser(currentUsername).Result;
+
+                    Console.WriteLine($"Репозитории пользователя {currentUsername}:");
+                    Console.WriteLine();
+
+                    foreach (var repository in repositories)
+                    {
+                        Console.WriteLine(repository.Name);
+                    }
+
+                    Console.WriteLine();
+                    Console.Write("Введите имя репозитория, который хотите удалить (или нажмите Enter для отмены): ");
+                    string repositoryName = Console.ReadLine();
+
+                    if (!string.IsNullOrEmpty(repositoryName))
+                    {
+                        var repository = client.Repository.Get(currentUsername, repositoryName).Result;
+                        var confirmationMessage = $"Вы уверены, что хотите удалить репозиторий \"{repository.Name}\"? (y/n): ";
+                        Console.Write(confirmationMessage);
+                        var confirmation = Console.ReadLine();
+
+                        if (confirmation?.ToLower() == "y")
+                        {
+                            client.Repository.Delete(repository.Id).Wait();
+                            Console.WriteLine($"Репозиторий \"{repository.Name}\" успешно удален!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Удаление репозитория отменено.");
+                        }
+                    }
+                    else
+                    {
+                        exit = true; // User pressed Enter without entering a repository name, exit the loop
+                    }
+
+                    Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
+                    Console.ReadKey();
                 }
-                else
+                catch (Exception ex)
                 {
-                    Console.ForegroundColor = ConsoleColor.Yellow;
-                    Console.BackgroundColor = ConsoleColor.Black;
-                    Console.Write("   ");
-                }
-
-                Console.WriteLine(repositories[i].Name);
-            }
-
-            ConsoleKey key = Console.ReadKey(true).Key;
-
-            switch (key)
-            {
-                case ConsoleKey.UpArrow:
-                    selectedOption = (selectedOption - 1 + repositories.Count) % repositories.Count;
-                    break;
-                case ConsoleKey.DownArrow:
-                    selectedOption = (selectedOption + 1) % repositories.Count;
-                    break;
-                case ConsoleKey.Enter:
-                    var selectedRepository = repositories[selectedOption];
-                    DeleteRepository(selectedRepository);
-                    repositories = null; // Refresh the repository list after deletion
-                    break;
-                case ConsoleKey.Escape:
+                    Console.WriteLine($"Ошибка при получении или удалении репозитория: {ex.Message}");
+                    Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
+                    Console.ReadKey();
                     exit = true;
-                    break;
-            }
-
+                }
+            } while (!exit);
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Ошибка при получении или удалении репозитория: {ex.Message}");
-            Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
-            Console.ReadKey();
-            exit = true;
-        }
-    } while (!exit);
-}
-
-static void DeleteRepository(Repository repository)
-{
-    try
-    {
-        var confirmationMessage = $"Вы уверены, что хотите удалить репозиторий \"{repository.Name}\"? (y/n): ";
-        Console.Write(confirmationMessage);
-        var confirmation = Console.ReadLine();
-
-        if (confirmation?.ToLower() == "y")
-        {
-            client.Repository.Delete(repository.Owner.Login, repository.Name).Wait();
-            Console.WriteLine($"Репозиторий \"{repository.Name}\" успешно удален!");
-        }
-        else
-        {
-            Console.WriteLine("Удаление репозитория отменено.");
-        }
-    }
-    catch (Exception ex)
-    {
-        Console.WriteLine($"Ошибка при удалении репозитория: {ex.Message}");
-    }
-
-    Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
-    Console.ReadKey();
-}
 
         static bool ValidateCredentials()
         {
