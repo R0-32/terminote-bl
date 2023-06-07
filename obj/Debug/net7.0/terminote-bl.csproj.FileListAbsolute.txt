@@ -13,3 +13,11 @@
 /workspaces/terminote-bl/obj/Debug/net7.0/terminote-bl.pdb
 /workspaces/terminote-bl/obj/Debug/net7.0/terminote-bl.genruntimeconfig.cache
 /workspaces/terminote-bl/obj/Debug/net7.0/ref/terminote-bl.dll
+/workspaces/terminote-bl/bin/Debug/net7.0/Microsoft.DotNet.PlatformAbstractions.dll
+/workspaces/terminote-bl/bin/Debug/net7.0/NStack.dll
+/workspaces/terminote-bl/bin/Debug/net7.0/Octokit.dll
+/workspaces/terminote-bl/bin/Debug/net7.0/Terminal.Gui.dll
+/workspaces/terminote-bl/bin/Debug/net7.0/fr-FR/Terminal.Gui.resources.dll
+/workspaces/terminote-bl/bin/Debug/net7.0/ja-JP/Terminal.Gui.resources.dll
+/workspaces/terminote-bl/bin/Debug/net7.0/pt-PT/Terminal.Gui.resources.dll
+/workspaces/terminote-bl/obj/Debug/net7.0/terminote-bl.csproj.CopyComplete

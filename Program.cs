@@ -264,52 +264,7 @@ namespace CodespacesBlankProgram
                 Console.ReadKey();
                 return null;
             }
-
             return accessToken;
         }
-    }
-
-    class ShowRepositories
-    {
-        private static GitHubClient client;
-        private static string currentUsername;
-
-        public ShowRepositories(GitHubClient client, string currentUsername)
-        {
-            ShowRepositories.client = client;
-            ShowRepositories.currentUsername = currentUsername;
-        }
-
-        public void DisplayRepositories()
-        {
-            try
-            {
-                var repositories = client.Repository.GetAllForUser(currentUsername).Result;
-
-                Console.WriteLine($"Репозитории пользователя {currentUsername}:");
-                Console.WriteLine();
-
-                foreach (var repository in repositories)
-                {
-                    Console.WriteLine(repository.Name);
-                }
-
-                Console.WriteLine();
-                Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
-                Console.ReadKey();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"Ошибка при получении репозиториев: {ex.Message}");
-                Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
-                Console.ReadKey();
-            }
-        }
-    }
-
-    class MenuItem
-    {
-        public int Number { get; set; }
-        public string Title { get; set; }
     }
 }
