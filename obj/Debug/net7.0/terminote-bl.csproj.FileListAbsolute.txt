@@ -1,0 +1,15 @@
+/workspaces/terminote-bl/bin/Debug/net7.0/terminote-bl
+/workspaces/terminote-bl/bin/Debug/net7.0/terminote-bl.deps.json
+/workspaces/terminote-bl/bin/Debug/net7.0/terminote-bl.runtimeconfig.json
+/workspaces/terminote-bl/bin/Debug/net7.0/terminote-bl.dll
+/workspaces/terminote-bl/bin/Debug/net7.0/terminote-bl.pdb
+/workspaces/terminote-bl/obj/Debug/net7.0/terminote-bl.csproj.AssemblyReference.cache
+/workspaces/terminote-bl/obj/Debug/net7.0/terminote-bl.GeneratedMSBuildEditorConfig.editorconfig
+/workspaces/terminote-bl/obj/Debug/net7.0/terminote-bl.AssemblyInfoInputs.cache
+/workspaces/terminote-bl/obj/Debug/net7.0/terminote-bl.AssemblyInfo.cs
+/workspaces/terminote-bl/obj/Debug/net7.0/terminote-bl.csproj.CoreCompileInputs.cache
+/workspaces/terminote-bl/obj/Debug/net7.0/terminote-bl.dll
+/workspaces/terminote-bl/obj/Debug/net7.0/refint/terminote-bl.dll
+/workspaces/terminote-bl/obj/Debug/net7.0/terminote-bl.pdb
+/workspaces/terminote-bl/obj/Debug/net7.0/terminote-bl.genruntimeconfig.cache
+/workspaces/terminote-bl/obj/Debug/net7.0/ref/terminote-bl.dll

@@ -1,8 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Octokit;
+using Terminal.Gui;
 
-namespace CodespacesBlank
+namespace terminote_bl
 {
     class Program
     {
@@ -10,23 +12,23 @@ namespace CodespacesBlank
         private static string currentUsername;
         private static TokenManager tokenManager;
 
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             client = new GitHubClient(new ProductHeaderValue("terminote"));
             currentUsername = "";
             tokenManager = new TokenManager();
 
             // Выполняем авторизацию
-            GhLogin();
+            await GhLogin();
 
             // Выводим список репозиториев
-            ShowRepositories();
+            await ShowRepositories();
 
             Console.WriteLine("Нажмите любую клавишу, чтобы выйти...");
             Console.ReadKey();
         }
 
-        public static void GhLogin()
+        public static async Task GhLogin()
         {
             Console.WriteLine("Подключение к GitHub");
 
@@ -59,11 +61,11 @@ namespace CodespacesBlank
 
             client.Credentials = new Credentials(accessToken);
 
-            if (ValidateCredentials())
+            if (await ValidateCredentials())
             {
                 try
                 {
-                    var user = client.User.Current().Result;
+                    var user = await client.User.Current();
 
                     currentUsername = user.Login;
 
@@ -81,11 +83,11 @@ namespace CodespacesBlank
             }
         }
 
-        public static void ShowRepositories()
+        public static async Task ShowRepositories()
         {
             try
             {
-                var repositories = client.Repository.GetAllForUser(currentUsername).Result;
+                var repositories = await client.Repository.GetAllForUser(currentUsername);
 
                 Console.WriteLine($"Репозитории пользователя {currentUsername}:");
                 Console.WriteLine();
@@ -101,13 +103,13 @@ namespace CodespacesBlank
             }
         }
 
-        private static bool ValidateCredentials()
+        private static async Task<bool> ValidateCredentials()
         {
             try
             {
                 if (string.IsNullOrEmpty(currentUsername))
                 {
-                    var user = client.User.Current().Result;
+                    var user = await client.User.Current();
                     currentUsername = user.Login;
                 }
 
@@ -164,5 +166,11 @@ namespace CodespacesBlank
 
             return options[selectedOption];
         }
+    }
+
+    class MenuItem
+    {
+        public int Number { get; set; }
+        public string Title { get; set; }
     }
 }

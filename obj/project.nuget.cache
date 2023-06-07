@@ -1,0 +1,14 @@
+{
+  "version": 2,
+  "dgSpecHash": "Ox4TKpS1vsskKhT7u1JHx5WshBgh1TutgtSzcx8VDMETPmXxh1GfhD9xl7Pgbw+K/pL60USGYTIqsC/0236Iqw==",
+  "success": true,
+  "projectFilePath": "/workspaces/terminote-bl/terminote-bl.csproj",
+  "expectedPackageFiles": [
+    "/home/codespace/.nuget/packages/microsoft.dotnet.platformabstractions/3.1.6/microsoft.dotnet.platformabstractions.3.1.6.nupkg.sha512",
+    "/home/codespace/.nuget/packages/nstack.core/1.0.7/nstack.core.1.0.7.nupkg.sha512",
+    "/home/codespace/.nuget/packages/octokit/0.48.0/octokit.0.48.0.nupkg.sha512",
+    "/home/codespace/.nuget/packages/system.valuetuple/4.5.0/system.valuetuple.4.5.0.nupkg.sha512",
+    "/home/codespace/.nuget/packages/terminal.gui/1.9.0/terminal.gui.1.9.0.nupkg.sha512"
+  ],
+  "logs": []
+}
