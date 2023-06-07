@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = terminote_bl
-build_property.ProjectDir = /workspaces/terminote-bl/
+build_property.ProjectDir = /home/r0-bl/Downloads/terminote-bl/terminote-bl/

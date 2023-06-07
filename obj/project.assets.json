@@ -187,19 +187,19 @@
     ]
   },
   "packageFolders": {
-    "/home/codespace/.nuget/packages/": {}
+    "/home/r0-bl/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/workspaces/terminote-bl/terminote-bl.csproj",
+      "projectUniqueName": "/home/r0-bl/Downloads/terminote-bl/terminote-bl/terminote-bl.csproj",
       "projectName": "terminote-bl",
-      "projectPath": "/workspaces/terminote-bl/terminote-bl.csproj",
-      "packagesPath": "/home/codespace/.nuget/packages/",
-      "outputPath": "/workspaces/terminote-bl/obj/",
+      "projectPath": "/home/r0-bl/Downloads/terminote-bl/terminote-bl/terminote-bl.csproj",
+      "packagesPath": "/home/r0-bl/.nuget/packages/",
+      "outputPath": "/home/r0-bl/Downloads/terminote-bl/terminote-bl/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/codespace/.nuget/NuGet/NuGet.Config"
+        "/home/r0-bl/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net7.0"
@@ -248,7 +248,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/dotnet/7.0.203/sdk/7.0.203/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.302/RuntimeIdentifierGraph.json"
       }
     }
   }

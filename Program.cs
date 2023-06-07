@@ -28,7 +28,7 @@ namespace CodespacesBlankProgram
             var options = new List<MenuItem>
             {
                 new MenuItem { Number = 1, Title = "Вход в GitHub" },
-                new MenuItem { Number = 2, Title = "Просмотреть репозитории" },
+                new MenuItem { Number = 2, Title = "Просмотреть и удалить репозиторий" },
                 new MenuItem { Number = 3, Title = "Закрыть приложение" }
             };
 
@@ -55,7 +55,7 @@ namespace CodespacesBlankProgram
                     Console.WriteLine($"{options[i].Number}. {options[i].Title}");
                 }
 
-                var keyInfo = Console.ReadKey(true);
+                var keyInfo = Console.ReadKey(intercept: true);
 
                 switch (keyInfo.Key)
                 {
@@ -66,25 +66,33 @@ namespace CodespacesBlankProgram
                         selectedOption = (selectedOption + 1) % options.Count;
                         break;
                     case ConsoleKey.Enter:
-                        if (options[selectedOption].Number == 1)
-                        {
-                            Login();
-                        }
-                        else if (options[selectedOption].Number == 2)
-                        {
-                            ShowRepositories();
-                        }
-                        else if (options[selectedOption].Number == 3)
-                        {
-                            exit = true;
-                        }
+                        ProcessSelectedOption(options[selectedOption]);
                         break;
                     case ConsoleKey.Escape:
                         exit = true;
                         break;
+                    case ConsoleKey.Tab:
+                        selectedOption = (selectedOption + 1) % options.Count;
+                        break;
                 }
 
             } while (!exit);
+        }
+
+        static void ProcessSelectedOption(MenuItem option)
+        {
+            switch (option.Number)
+            {
+                case 1:
+                    Login();
+                    break;
+                case 2:
+                    ShowAndDeleteRepository();
+                    break;
+                case 3:
+                    Environment.Exit(0);
+                    break;
+            }
         }
 
         static void Login()
@@ -151,39 +159,108 @@ namespace CodespacesBlankProgram
             }
         }
 
-        static void ShowRepositories()
+static void ShowAndDeleteRepository()
+{
+    if (string.IsNullOrEmpty(currentUsername))
+    {
+        Console.WriteLine("Ошибка: Вы не подключены к аккаунту GitHub!");
+        Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
+        Console.ReadKey();
+        return;
+    }
+
+    bool exit = false;
+    int selectedOption = 0;
+    List<Repository> repositories = null;
+
+    do
+    {
+        try
         {
-            if (string.IsNullOrEmpty(currentUsername))
+            if (repositories == null)
             {
-                Console.WriteLine("Ошибка: Вы не подключены к аккаунту GitHub!");
-                Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
-                Console.ReadKey();
-                return;
+                repositories = client.Repository.GetAllForUser(currentUsername).Result;
             }
 
-            try
+            Console.Clear();
+            Console.WriteLine($"Репозитории пользователя {currentUsername}:");
+            Console.WriteLine();
+
+            for (int i = 0; i < repositories.Count; i++)
             {
-                var repositories = client.Repository.GetAllForUser(currentUsername).Result;
-
-                Console.WriteLine($"Репозитории пользователя {currentUsername}:");
-                Console.WriteLine();
-
-                foreach (var repository in repositories)
+                if (i == selectedOption)
                 {
-                    Console.WriteLine(repository.Name);
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+                    Console.Write("-> ");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.BackgroundColor = ConsoleColor.Black;
+                    Console.Write("   ");
                 }
 
-                Console.WriteLine();
-                Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
-                Console.ReadKey();
+                Console.WriteLine(repositories[i].Name);
             }
-            catch (Exception ex)
+
+            ConsoleKey key = Console.ReadKey(true).Key;
+
+            switch (key)
             {
-                Console.WriteLine($"Ошибка при получении репозиториев: {ex.Message}");
-                Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
-                Console.ReadKey();
+                case ConsoleKey.UpArrow:
+                    selectedOption = (selectedOption - 1 + repositories.Count) % repositories.Count;
+                    break;
+                case ConsoleKey.DownArrow:
+                    selectedOption = (selectedOption + 1) % repositories.Count;
+                    break;
+                case ConsoleKey.Enter:
+                    var selectedRepository = repositories[selectedOption];
+                    DeleteRepository(selectedRepository);
+                    repositories = null; // Refresh the repository list after deletion
+                    break;
+                case ConsoleKey.Escape:
+                    exit = true;
+                    break;
             }
+
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Ошибка при получении или удалении репозитория: {ex.Message}");
+            Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
+            Console.ReadKey();
+            exit = true;
+        }
+    } while (!exit);
+}
+
+static void DeleteRepository(Repository repository)
+{
+    try
+    {
+        var confirmationMessage = $"Вы уверены, что хотите удалить репозиторий \"{repository.Name}\"? (y/n): ";
+        Console.Write(confirmationMessage);
+        var confirmation = Console.ReadLine();
+
+        if (confirmation?.ToLower() == "y")
+        {
+            client.Repository.Delete(repository.Owner.Login, repository.Name).Wait();
+            Console.WriteLine($"Репозиторий \"{repository.Name}\" успешно удален!");
+        }
+        else
+        {
+            Console.WriteLine("Удаление репозитория отменено.");
+        }
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Ошибка при удалении репозитория: {ex.Message}");
+    }
+
+    Console.WriteLine("Нажмите любую клавишу, чтобы продолжить...");
+    Console.ReadKey();
+}
 
         static bool ValidateCredentials()
         {
