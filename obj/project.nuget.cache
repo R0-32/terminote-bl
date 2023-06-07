@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "DcSxdDV4p4eIz/ptlHS+VqUzXG9htqf/71iyiL4WzoTpRwksA2uRVJ3XKMAMpGfhLhuh0PC0THSnpoIWRmi4bA==",
+  "dgSpecHash": "fbQE/3Izx1eWi+qhrY4XVo2pThj9GpUhqLQxwbYeXqoxd7GIXp5xS6FJn8t6llZn6c9cXZE6bS3/A3s1q1GH0w==",
   "success": true,
   "projectFilePath": "/home/r0-bl/Downloads/terminote-bl/terminote-bl/terminote-bl.csproj",
   "expectedPackageFiles": [
@@ -8,7 +8,10 @@
     "/home/r0-bl/.nuget/packages/nstack.core/1.0.7/nstack.core.1.0.7.nupkg.sha512",
     "/home/r0-bl/.nuget/packages/octokit/0.48.0/octokit.0.48.0.nupkg.sha512",
     "/home/r0-bl/.nuget/packages/system.valuetuple/4.5.0/system.valuetuple.4.5.0.nupkg.sha512",
-    "/home/r0-bl/.nuget/packages/terminal.gui/1.9.0/terminal.gui.1.9.0.nupkg.sha512"
+    "/home/r0-bl/.nuget/packages/terminal.gui/1.9.0/terminal.gui.1.9.0.nupkg.sha512",
+    "/home/r0-bl/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/7.0.5/microsoft.netcore.app.runtime.osx-x64.7.0.5.nupkg.sha512",
+    "/home/r0-bl/.nuget/packages/microsoft.aspnetcore.app.runtime.osx-x64/7.0.5/microsoft.aspnetcore.app.runtime.osx-x64.7.0.5.nupkg.sha512",
+    "/home/r0-bl/.nuget/packages/microsoft.netcore.app.host.osx-x64/7.0.5/microsoft.netcore.app.host.osx-x64.7.0.5.nupkg.sha512"
   ],
   "logs": []
 }
